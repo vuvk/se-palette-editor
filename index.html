@@ -150,10 +150,18 @@
                     <i class="fas fa-file" style="padding-right:12px;"></i>
                     New
                 </span>
+                <!--
                 <span id="btn_open_file" class="w3-bar-item w3-button">
                     <i class="fas fa-folder-open" style="padding-right:8px;"></i>
                     Open
                 </span>
+                -->
+                <label for="file_input" class="w3-bar-item w3-button">
+                    <i class="fas fa-folder-open" style="padding-right:8px;"></i>
+                    Open
+                    <input type="file" id="file_input" style="display:none;" onchange="loadPalette();">
+                </label>
+
                 <span id="btn_load_file"
                       class="w3-bar-item w3-button"
                       onclick="savePalette();">

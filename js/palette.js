@@ -132,6 +132,14 @@ function saveByteArray(data, name) {
     window.URL.revokeObjectURL(url);
 };
 
+function loadPalette() {
+    let file = document.getElementById('file_input').files[0];
+
+    console.log(file.name);
+    console.log(file.size);
+    console.log(file.type);
+}
+
 function savePalette() {
     // 4 б - хэдер
     // 3 б - rgb
