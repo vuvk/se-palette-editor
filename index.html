@@ -159,12 +159,12 @@
                 <label for="file_input" class="w3-bar-item w3-button">
                     <i class="fas fa-folder-open" style="padding-right:8px;"></i>
                     Open
-                    <input type="file" id="file_input" style="display:none;" onchange="loadPalette();">
+                    <input type="file" id="file_input" style="display:none;" onchange="paletteLoad();">
                 </label>
 
                 <span id="btn_load_file"
                       class="w3-bar-item w3-button"
-                      onclick="savePalette();">
+                      onclick="paletteSave();">
                     <i class="fas fa-save" style="padding-right:12px;"></i>
                     Save
                 </span>
@@ -228,8 +228,8 @@
                 <button class="w3-button blue-element"
                         style="width:150px;"
                         onclick="getBaseColors();
-                                 generatePalette();
-                                 drawPalette();
+                                 paletteGenerate();
+                                 paletteDraw();
                                  showWndGenerated();
                                  document.getElementById('lbl_open_new').style.display='none';">
                   Generate

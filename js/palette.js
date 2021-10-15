@@ -68,7 +68,7 @@ function getBaseColors() {
 }
 
 /** сгенерировать массив PALETTE */
-function generatePalette() {
+function paletteGenerate() {
     // нулевой цвет используется как прозрачность. Для удобства шлёпнем магенту
     palette[0] = [255, 0, 255];      // transparent color
 
@@ -107,7 +107,7 @@ function generatePalette() {
 }
 
 /** отобразить таблицу-палитру */
-function drawPalette() {
+function paletteDraw() {
     for (let r = 0; r < 16; ++r) {
         let offset = r << 4;
         for (let c = 0; c < 16; ++c) {
@@ -132,13 +132,13 @@ function saveByteArray(data, name) {
     window.URL.revokeObjectURL(url);
 };
 
-function loadPalette() {
+function paletteLoad() {
     let file = document.getElementById('file_input').files[0];
 
     alert("File Name - " + file.name + "\nFile Size - " + file.size + "\nFile Type - " + file.type);
 }
 
-function savePalette() {
+function paletteSave() {
     // 4 б - хэдер
     // 3 б - rgb
     // 256 цветов в палитре
