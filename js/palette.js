@@ -54,6 +54,11 @@ let baseColors = [
     [0,0,0]
 ];
 
+// 4 б - хэдер
+// 3 б - rgb
+// 256 цветов в палитре
+const PALETTE_FILE_SIZE = 4 + 3 * 256;
+const DEF_PALETTE_FILE_NAME = "palette.sep";
 // 256 цветов
 let palette = [];
 
@@ -135,14 +140,30 @@ function saveByteArray(data, name) {
 function paletteLoad() {
     let file = document.getElementById('file_input').files[0];
 
-    alert("File Name - " + file.name + "\nFile Size - " + file.size + "\nFile Type - " + file.type);
+    //alert("File Name - " + file.name + "\nFile Size - " + file.size + "\nFile Type - " + file.type);
+    if (file.size !== PALETTE_FILE_SIZE) {
+        alert("Error! Palette filesize is not valid!");
+        return;
+    }
+
+    if (!file.name.toLowerCase().endsWith(".sep")) {
+        alert("Error! Palette file has not valid extension!");
+        return;
+    }
+
+    let data;
+    let reader = new FileReader();
+    reader.addEventListener("loadend", () => {
+        data = reader.result;
+    });
+    reader.readAsArrayBuffer(file);
+
+    let converted = new Uint8Array(data);
+    alert("Ok! I can load palette... but not now!");
 }
 
 function paletteSave() {
-    // 4 б - хэдер
-    // 3 б - rgb
-    // 256 цветов в палитре
-    const bytes = new Uint8Array(256 * 3 + 4);
+    const bytes = new Uint8Array(PALETTE_FILE_SIZE);
 
     bytes[0] = 's'.charCodeAt(); // swinger
     bytes[1] = 'e'.charCodeAt(); // engine
@@ -162,5 +183,5 @@ function paletteSave() {
         }
     }
 
-    saveByteArray([bytes], "palette.sep");
+    saveByteArray([bytes], DEF_PALETTE_FILE_NAME);
 }
