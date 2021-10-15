@@ -142,7 +142,7 @@ function paletteLoad() {
 
     //alert("File Name - " + file.name + "\nFile Size - " + file.size + "\nFile Type - " + file.type);
     if (file.size !== PALETTE_FILE_SIZE) {
-        alert("Error! Palette filesize is not valid!");
+        alert("Error! Palette file has not valid size!");
         return;
     }
 
@@ -155,11 +155,21 @@ function paletteLoad() {
     let reader = new FileReader();
     reader.addEventListener("loadend", () => {
         data = reader.result;
+
+        let bytes = new Uint8Array(data);
+
+        // проверяем хэдер
+        if (bytes[0] !== 115 || // 's'
+            bytes[1] !== 101 || // 'e'
+            bytes[2] !== 80  || // 'P'
+            bytes[3] !== 1) {   // 1
+            alert("Error! Palette file has invalid magic word in header!");
+            return;
+        }
+
+        alert("Ok! I can load palette... but not now!");
     });
     reader.readAsArrayBuffer(file);
-
-    let converted = new Uint8Array(data);
-    alert("Ok! I can load palette... but not now!");
 }
 
 function paletteSave() {
