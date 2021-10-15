@@ -135,9 +135,7 @@ function saveByteArray(data, name) {
 function loadPalette() {
     let file = document.getElementById('file_input').files[0];
 
-    console.log(file.name);
-    console.log(file.size);
-    console.log(file.type);
+    alert("File Name - " + file.name + "\nFile Size - " + file.size + "\nFile Type - " + file.type);
 }
 
 function savePalette() {
