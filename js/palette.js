@@ -175,7 +175,7 @@ function paletteSave() {
         let offset = r << 4;
         for (let c = 0; c < 16; ++c) {
             let color = palette[offset + c];
-            let byteOffset = offset * 3 + c * 3;
+            let byteOffset = 4 + offset * 3 + c * 3; // 4 - размер хэдера
 
             for (let b = 0; b < 3; ++b) {
                 bytes[byteOffset + b] = color[b];
