@@ -133,7 +133,16 @@ function saveByteArray(data, name) {
 };
 
 function savePalette() {
-    const bytes = new Uint8Array(256 * 3);
+    // 4 б - хэдер
+    // 3 б - rgb
+    // 256 цветов в палитре
+    const bytes = new Uint8Array(256 * 3 + 4);
+
+    bytes[0] = 's'.charCodeAt(); // swinger
+    bytes[1] = 'e'.charCodeAt(); // engine
+    bytes[2] = 'P'.charCodeAt(); // Palette
+    bytes[3] = 1; // v1
+
 
     for (let r = 0; r < 16; ++r) {
         let offset = r << 4;
