@@ -167,7 +167,19 @@ function paletteLoad() {
             return;
         }
 
-        alert("Ok! I can load palette... but not now!");
+        for (let b = 4, i = 0; b < PALETTE_FILE_SIZE; b += 3, ++i) {
+            let rgb = [
+                bytes[b    ],
+                bytes[b + 1],
+                bytes[b + 2]
+            ];
+
+            palette[i] = rgb;
+        }
+
+        paletteDraw();
+
+        alert("Palette file was loaded!");
     });
     reader.readAsArrayBuffer(file);
 }
@@ -175,10 +187,10 @@ function paletteLoad() {
 function paletteSave() {
     const bytes = new Uint8Array(PALETTE_FILE_SIZE);
 
-    bytes[0] = 's'.charCodeAt(); // swinger
-    bytes[1] = 'e'.charCodeAt(); // engine
-    bytes[2] = 'P'.charCodeAt(); // Palette
-    bytes[3] = 1; // v1
+    bytes[0] = 115; // 's' - swinger
+    bytes[1] = 101; // 'e' - engine
+    bytes[2] = 80;  // 'P' - Palette
+    bytes[3] = 1;   // v1
 
 
     for (let r = 0; r < 16; ++r) {
