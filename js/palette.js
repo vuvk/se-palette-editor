@@ -140,14 +140,13 @@ function saveByteArray(data, name) {
 function paletteLoad() {
     let file = document.getElementById('file_input').files[0];
 
-    //alert("File Name - " + file.name + "\nFile Size - " + file.size + "\nFile Type - " + file.type);
     if (file.size !== PALETTE_FILE_SIZE) {
-        alert("Error! Palette file has not valid size!");
+        showMessage('Error!', 'Palette file has not valid size!');
         return;
     }
 
     if (!file.name.toLowerCase().endsWith(".sep")) {
-        alert("Error! Palette file has not valid extension!");
+        showMessage('Error!', 'Palette file has not valid extension!');
         return;
     }
 
@@ -163,7 +162,7 @@ function paletteLoad() {
             bytes[1] !== 101 || // 'e'
             bytes[2] !== 80  || // 'P'
             bytes[3] !== 1) {   // 1
-            alert("Error! Palette file has invalid magic word in header!");
+            showMessage('Error!', 'Palette file has invalid magic word in header!');
             return;
         }
 
@@ -187,7 +186,7 @@ function paletteLoad() {
 
         paletteDraw();
 
-        alert("Palette file was loaded!");
+        showMessage('Congratulations!', 'Palette file was loaded!');
     });
     reader.readAsArrayBuffer(file);
 }

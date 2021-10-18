@@ -60,12 +60,18 @@
                 }
             }
 
-            function showWndGenerated() {
-                const wndGenerated = document.getElementById('wnd_generated');
-                wndGenerated.style.display = 'block';
-                setTimeout(() => {
-                    wndGenerated.style.display = 'none';
-                }, 3000);
+            function showMessage(title, msg, timeout) {
+                const wnd = document.getElementById('wnd_message');
+                wnd.style.display = 'block';
+
+                document.getElementById('msg_title').innerHTML = title;
+                document.getElementById('msg_text').innerHTML = msg;
+
+                if (arguments.length === 3) {
+                    setTimeout(() => {
+                        wnd.style.display = 'none';
+                    }, timeout);
+                }
             }
 
             function mainMenuShow() {
@@ -232,7 +238,7 @@
                         onclick="getBaseColors();
                                  paletteGenerate();
                                  paletteDraw();
-                                 showWndGenerated();
+                                 showMessage('Congratulations!', 'New palette was generated...', 3000);
                                  document.getElementById('lbl_open_new').style.display='none';">
                   Generate
                 </button>
@@ -240,19 +246,19 @@
         </div>
 
         <!-- Сообщение Генерация выполнена -->
-        <div id="wnd_generated" class="w3-modal" style="z-index:99999;">
+        <div id="wnd_message" class="w3-modal" style="z-index:99999;">
             <div class="w3-modal-content w3-animate-top">
                 <div class="w3-container">
                     <span class="w3-button w3-display-topright"
-                          onclick="document.getElementById('wnd_generated').style.display='none'">
+                          onclick="document.getElementById('wnd_message').style.display='none'">
                       &times;
                     </span>
-                    <h3>Congratulations!</h3>
-                    <p>New palette was generated...</p>
+                    <h3 id="msg_title">Congratulations!</h3>
+                    <p id="msg_text">New palette was generated...</p>
                 </div>
                 <div class="w3-container w3-center" style="padding:12px;">
                     <button class="w3-button w3-red"
-                            onclick="document.getElementById('wnd_generated').style.display='none'">
+                            onclick="document.getElementById('wnd_message').style.display='none'">
                         Close &times;
                     </button>
                 </div>
