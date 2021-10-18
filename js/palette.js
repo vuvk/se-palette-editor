@@ -177,6 +177,14 @@ function paletteLoad() {
             palette[i] = rgb;
         }
 
+        // взять базовые цвета
+        for (let c = 31, i = 1; c < palette.length; c += 16, ++i) {
+            let rgb = palette[c];
+            let hexColor = rgb2hex(rgb[0], rgb[1], rgb[2]);
+            let btnColor = document.getElementById("btn_color_" + i);
+            btnColor.value = hexColor;
+        }
+
         paletteDraw();
 
         alert("Palette file was loaded!");
