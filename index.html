@@ -160,14 +160,19 @@
                 </div>
 
                 <p>File operations</p>
-                <span id="btn_new_file"  class="w3-bar-item w3-button">
+                <span id="btn_new_file"
+                      class="w3-bar-item w3-button"
+                      onclick="paletteNew(); mainMenuClose();">
                     <i class="fas fa-file" style="padding-right:12px;"></i>
                     New
                 </span>
                 <label for="file_input" class="w3-bar-item w3-button">
                     <i class="fas fa-folder-open" style="padding-right:8px;"></i>
                     Open
-                    <input type="file" id="file_input" style="display:none;" onchange="paletteLoad(); mainMenuClose();">
+                    <input type="file"
+                           id="file_input"
+                           style="display:none;"
+                           onchange="paletteLoad(); mainMenuClose();">
                 </label>
 
                 <span id="btn_save_file"
@@ -235,11 +240,7 @@
                 <table id="tbl_color_buttons" style="width:150px;margin:0 auto;padding-bottom:12px;"></table>
                 <button class="w3-button blue-element"
                         style="width:150px;"
-                        onclick="getBaseColors();
-                                 paletteGenerate();
-                                 paletteDraw();
-                                 showMessage('Congratulations!', 'New palette was generated...', 3000);
-                                 document.getElementById('lbl_open_new').style.display='none';">
+                        onclick="paletteGenerate();">
                   Generate
                 </button>
             </div>

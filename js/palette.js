@@ -61,6 +61,10 @@ const PALETTE_FILE_SIZE = 4 + 3 * 256;
 const DEF_PALETTE_FILE_NAME = "palette.sep";
 // 256 цветов
 let palette = [];
+// новая ли палитра (не заполненная)
+let paletteIsNew = true;
+// были ли несохранённые изменения
+let paletteSaved = false;
 
 /** получить базовые цвета из кнопок */
 function getBaseColors() {
@@ -74,6 +78,8 @@ function getBaseColors() {
 
 /** сгенерировать массив PALETTE */
 function paletteGenerate() {
+    getBaseColors();
+
     // нулевой цвет используется как прозрачность. Для удобства шлёпнем магенту
     palette[0] = [255, 0, 255];      // transparent color
 
@@ -109,6 +115,13 @@ function paletteGenerate() {
             ];
         }
     }
+
+    paletteDraw();
+    showMessage('Congratulations!', 'New palette was generated...', 3000);
+    document.getElementById('lbl_open_new').style.display = 'none';
+
+    paletteIsNew = false;
+    paletteSaved = false;
 }
 
 /** отобразить таблицу-палитру */
@@ -120,7 +133,11 @@ function paletteDraw() {
             let cellName = ["cell", r, c].join("_");
             let cell = document.getElementById(cellName);
 
-            cell.style.backgroundColor = rgb2html(color[0], color[1], color[2]);
+            if (color) {
+                cell.style.backgroundColor = rgb2html(color[0], color[1], color[2]);
+            } else {
+                cell.style.backgroundColor = "";
+            }
         }
     }
 }
@@ -137,7 +154,35 @@ function saveByteArray(data, name) {
     window.URL.revokeObjectURL(url);
 };
 
+function paletteNew() {
+    if (!paletteIsNew && !paletteSaved) {
+        showMessage("Warning!", "Changes was not saved...");
+        return;
+    }
+
+    document.getElementById("lbl_open_new").style.display = "block";
+    palette = [];
+    for (let rgb of baseColors) {
+        for (let component of rgb) {
+            component = 0;
+        }
+    }
+
+    // дефолтные цвета на кнопки
+    for (let i = 1; i < 16; ++i) {
+        let rgb = DEF_BASE_COLORS[i - 1];
+        document.getElementById('btn_color_' + i).value = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    }
+
+    paletteDraw();
+}
+
 function paletteLoad() {
+    if (!paletteIsNew && !paletteSaved) {
+        showMessage('Warning!', 'Last changes was not saved...');
+        return;
+    }
+
     let file = document.getElementById('file_input').files[0];
 
     if (file.size !== PALETTE_FILE_SIZE) {
@@ -185,6 +230,9 @@ function paletteLoad() {
         }
 
         paletteDraw();
+        paletteIsNew = false;
+        paletteSaved = true;
+        document.getElementById("lbl_open_new").style.display = "none";
 
         showMessage('Congratulations!', 'Palette file was loaded!');
     });
@@ -192,13 +240,16 @@ function paletteLoad() {
 }
 
 function paletteSave() {
+    if (paletteIsNew) {
+        return;
+    }
+
     const bytes = new Uint8Array(PALETTE_FILE_SIZE);
 
     bytes[0] = 115; // 's' - swinger
     bytes[1] = 101; // 'e' - engine
     bytes[2] = 80;  // 'P' - Palette
     bytes[3] = 1;   // v1
-
 
     for (let r = 0; r < 16; ++r) {
         let offset = r << 4;
@@ -213,4 +264,7 @@ function paletteSave() {
     }
 
     saveByteArray([bytes], DEF_PALETTE_FILE_NAME);
+
+    paletteIsNew = false;
+    paletteSaved = true;
 }
